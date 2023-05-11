@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Order Information</title>
+</head>
+<body>
+	<h1>Order Information</h1>
+	<h2>{{entity}} Orders</h2>
+	{{#each orders}}
+	<div>
+		<h3>Order #{{this.id}}</h3>
+		<p><strong>Customer:</strong> {{../customer.name}}</p>
+		<p><strong>Date:</strong> {{this.date}}</p>
+		<p><strong>Total:</strong> {{this.total}}</p>
+		<table>
+			<thead>
+				<tr>
+					<th>Product</th>
+					<th>Quantity</th>
+					<th>Price</th>
+				</tr>
+			</thead>
+			<tbody>
+				{{#each this.items}}
+				<tr>
+					<td>{{this.product}}</td>
+					<td>{{this.quantity}}</td>
+					<td>{{this.price}}</td>
+				</tr>
+				{{/each}}
+			</tbody>
+		</table>
+	</div>
+	{{/each}}
+</body>
+</html>

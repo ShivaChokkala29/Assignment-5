@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>My App</title>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
+	<style>
+		h1 {
+			font-size: 2rem;
+			color: #333;
+			margin-bottom: 1rem;
+		}
+
+		h2 {
+			font-size: 1.5rem;
+			color: #333;
+			margin-top: 2rem;
+			margin-bottom: 1rem;
+		}
+
+		ul {
+			margin-top: 0;
+			margin-bottom: 2rem;
+			list-style: none;
+			padding: 0;
+		}
+
+		li {
+			margin-bottom: 0.5rem;
+		}
+	</style>
+</head>
+<body>
+	<h1>My App</h1>
+	<ul>
+		<li><a href="#" id="customers-link">Customers</a></li>
+		<li><a href="#" id="orders-link">Orders</a></li>
+	</ul>
+
+	<div id="content"></div>
+
+	<script id="customers-template" type="text/x-handlebars-template">
+		<h2>Customers</h2>
+		<ul>
+			{{#each this}}
+			<li>
+				<h3>{{name}}</h3>
+				<p><strong>Email:</strong> {{email}}</p>
+				<p><strong>Phone:</strong> {{phone}}</p>
+				<p><strong>Address:</strong> {{address}}</p>
+			</li>
+			{{/each}}
+		</ul>
+	</script>
+
+	<script id="orders-template" type="text/x-handlebars-template">
+		<h2>Orders</h2>
+		<ul>
+			{{#each this}}
+			<li>
+				<h3>{{name}}</h3>
+				<p><strong>Product:</strong> {{product}}</p>
+				<p><strong>Quantity:</strong> {{quantity}}</p>
+				<p><strong>Total:</strong> {{total}}</p>
+			</li>
+			{{/each}}
+		</ul>
+	</script>
+
+	<script>
+		$(document).ready(function() {
+			$('#customers-link').click(function() {
+				$.ajax({
+					url: 'http://localhost:3000/customers',
+					dataType: 'json',
+					success: function(data) {
+						var source = $('#customers-template').html();
+						var template = Handlebars.compile(source);
+						var html = template(data);
+						$('#content').html(html);
+					}
+				});
+			});
+
+			$('#orders-link').click(function() {
+				$.ajax({
+					url: 'http://localhost:3000/orders',
+					dataType: 'json',
+					success: function(data) {
+						var source = $('#orders-template').html();
+						var template = Handlebars.compile(source);
+						var html = template(data);
+						$('#content').html(html);
+					}
+				});
+			});
+		});
+	</script>
+</body>
+</html>
